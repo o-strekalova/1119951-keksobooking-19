@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Ольга Стрекалова](https://up.htmlacademy.ru/javascript/19/user/1119951).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Прибитков](https://htmlacademy.ru/profile/id1061259).
 
 ---
 

@@ -66,14 +66,14 @@ var pinTemplate = document.querySelector('#pin')
     .querySelector('.map__pin');
 
 var renderPin = function (offerItem) {
+  var pinAvatar = pinTemplate.querySelector('img');
+  pinAvatar.src = offerItem.author.avatar;
+  pinAvatar.alt = offerItem.offer.title;
+
   var pinElement = pinTemplate.cloneNode(true);
 
   pinElement.style.left = offerItem.location.x - 25 + 'px';
   pinElement.style.top = offerItem.location.y - 70 + 'px';
-
-  var pinAvatar = pinTemplate.querySelector('img');
-  pinAvatar.src = offerItem.author.avatar;
-  pinAvatar.alt = offerItem.offer.title;
 
   return pinElement;
 };

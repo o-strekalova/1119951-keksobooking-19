@@ -6,7 +6,6 @@ var TYPES = ['palace', 'flat', 'house', 'bungalo'];
 var TIMES = ['12:00', '13:00', '14:00'];
 var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditioner'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
-var numberOfPins = 8;
 
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
@@ -17,7 +16,7 @@ var getRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min)) + min;
 };
 
-var getOffers = function () {
+var getOffers = function (numberOfPins) {
   var offers = [];
 
   for (var i = 0; i < numberOfPins; i++) {
@@ -58,7 +57,7 @@ var getOffers = function () {
   return offers;
 };
 
-var offers = getOffers(numberOfPins);
+var offers = getOffers(8);
 
 var pinsList = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin')
@@ -66,11 +65,11 @@ var pinTemplate = document.querySelector('#pin')
     .querySelector('.map__pin');
 
 var renderPin = function (offerItem) {
-  var pinAvatar = pinTemplate.querySelector('img');
+  var pinElement = pinTemplate.cloneNode(true);
+
+  var pinAvatar = pinElement.querySelector('img');
   pinAvatar.src = offerItem.author.avatar;
   pinAvatar.alt = offerItem.offer.title;
-
-  var pinElement = pinTemplate.cloneNode(true);
 
   pinElement.style.left = offerItem.location.x - 25 + 'px';
   pinElement.style.top = offerItem.location.y - 70 + 'px';

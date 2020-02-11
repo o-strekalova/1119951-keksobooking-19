@@ -77,8 +77,65 @@ var renderPin = function (offerItem) {
   return pinElement;
 };
 
+var cardTemplate = document.querySelector('#card')
+    .content
+    .querySelector('.map__card');
+
+var renderCard = function (offerItem) {
+  var cardElement = cardTemplate.cloneNode(true);
+
+  var title = cardElement.querySelector('.popup__title');
+  title.textContent = offerItem.offer.title;
+
+  var address = cardElement.querySelector('.popup__text--address');
+  address.textContent = offerItem.offer.address;
+
+  var price = cardElement.querySelector('.popup__text--price');
+  price.textContent = offerItem.offer.price + '₽/ночь';
+
+  var type = cardElement.querySelector('.popup__type');
+  if (offerItem.offer.type === 'flat') {
+    type.textContent = 'Квартира';
+  } else if (offerItem.offer.type === 'bungalo') {
+    type.textContent = 'Бунгало';
+  } else if (offerItem.offer.type === 'house') {
+    type.textContent = 'Дом';
+  } else if (offerItem.offer.type === 'palace') {
+    type.textContent = 'Дворец';
+  }
+
+  var capacity = cardElement.querySelector('.popup__text--time');
+  capacity.textContent = offerItem.offer.rooms + ' комнаты для ' + offerItem.offer.guests + ' гостей';
+
+  var time = cardElement.querySelector('.popup__text--capacity');
+  time.textContent = 'Заезд после ' + offerItem.offer.checkin + ', выезд до ' + offerItem.offer.checkout;
+
+  var features = cardElement.querySelector('.popup__features');
+  var feature = features.querySelector('.popup__feature');
+  for (var i = 0; i < offerItem.offer.features.length; i++) {
+    features.appendChild(feature);
+    feature.classList.add('popup__feature--' + offerItem.offer.features[i]);
+  }
+
+  var description = cardElement.querySelector('.popup__description');
+  description.textContent = offerItem.offer.description;
+
+  var photos = cardElement.querySelector('.popup__photos');
+  var photo = photos.querySelector('.popup__photo');
+  for (var j = 0; j < offerItem.offer.photos.length; j++) {
+    photos.appendChild(photo);
+    photo.src = offerItem.offer.photos[j];
+  }
+
+  var avatar = cardElement.querySelector('.popup__avatar');
+  avatar.src = offerItem.author.avatar;
+
+  return cardElement;
+};
+
 var fragment = document.createDocumentFragment();
 for (var m = 0; m < offers.length; m++) {
   fragment.appendChild(renderPin(offers[m]));
 }
 pinsList.appendChild(fragment);
+pinsList.appendChild(renderCard(offers[0]));

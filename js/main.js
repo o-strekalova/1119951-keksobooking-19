@@ -102,7 +102,10 @@ var renderCard = function (offerItem) {
 
   title.textContent = offerItem.offer.title;
   address.textContent = offerItem.offer.address;
-  price.textContent = offerItem.offer.price + '₽/ночь';
+
+  if (offerItem.offer.price) {
+    price.textContent = offerItem.offer.price + '₽/ночь';
+  }
 
   switch (offerItem.offer.type) {
     case 'flat':
@@ -117,10 +120,25 @@ var renderCard = function (offerItem) {
     case 'palace':
       type.textContent = 'Дворец';
       break;
+    default:
+      type.textContent = 'Неизвестная постройка';
   }
 
-  capacity.textContent = offerItem.offer.rooms + ' комнаты для ' + offerItem.offer.guests + ' гостей';
-  time.textContent = 'Заезд после ' + offerItem.offer.checkin + ', выезд до ' + offerItem.offer.checkout;
+  if (offerItem.offer.rooms) {
+    capacity.textContent = offerItem.offer.rooms + ' комнаты';
+  }
+
+  if (offerItem.offer.guests) {
+    capacity.textContent += ' для ' + offerItem.offer.guests + ' гостей';
+  }
+
+  if (offerItem.offer.checkin) {
+    time.textContent = 'Заезд после ' + offerItem.offer.checkin;
+  }
+
+  if (offerItem.offer.checkout) {
+    time.textContent += ', выезд до ' + offerItem.offer.checkout;
+  }
 
   for (var i = 0; i < offerItem.offer.features.length; i++) {
     features.appendChild(feature);

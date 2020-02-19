@@ -13,7 +13,7 @@ var PIN_HEIGHT = 70;
 var map = document.querySelector('.map');
 var pinsList = map.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+/* var cardTemplate = document.querySelector('#card').content.querySelector('.map__card'); */
 var fragment = document.createDocumentFragment();
 var formElements = document.querySelectorAll('.ad-form__element');
 var pinMain = map.querySelector('.map__pin--main');
@@ -84,7 +84,7 @@ var renderPin = function (offerItem) {
   return pinElement;
 };
 
-var renderCard = function (offerItem) {
+/* var renderCard = function (offerItem) {
   var cardElement = cardTemplate.cloneNode(true);
 
   var title = cardElement.querySelector('.popup__title');
@@ -155,7 +155,7 @@ var renderCard = function (offerItem) {
   avatar.src = offerItem.author.avatar;
 
   return cardElement;
-};
+}; */
 
 for (var i = 0; i < formElements.length; i++) {
   formElements[i].disabled = true;
@@ -193,7 +193,7 @@ pinMain.addEventListener('keydown', function (evt) {
   }
 });
 
-pinsList.appendChild(renderCard(offers[0]));
+/* pinsList.appendChild(renderCard(offers[0])); */
 
 var onChangeCheckOption = function () {
   if (roomNumberSelect.value === '1' && capacitySelect.value !== '1') {

@@ -193,20 +193,27 @@ pinMain.addEventListener('keydown', function (evt) {
   }
 });
 
-/*pinsList.appendChild(renderCard(offers[0]));*/
+pinsList.appendChild(renderCard(offers[0]));
+
 var onChangeCheckOption = function () {
-  if (roomNumberSelect.value === '1' && capacitySelect.value === !'1') {
+  if (roomNumberSelect.value === '1' && capacitySelect.value !== '1') {
     capacitySelect.setCustomValidity('1 комната = 1 гость');
-  }
-  if (roomNumberSelect.value === '2' && capacitySelect.value === '3') {
+  } else if (roomNumberSelect.value === '2' && capacitySelect.value !== '1' && capacitySelect.value !== '2') {
     capacitySelect.setCustomValidity('2 комнаты = 1 гость или 2 гостя');
-  }
-  if (roomNumberSelect.value === '3' && capacitySelect.value === 'не для гостей') {
+  } else if (roomNumberSelect.value === '3' && capacitySelect.value === '0') {
     capacitySelect.setCustomValidity('3 комнаты = 1 гость, 2 гостя или 3 гостя');
-  }
-  if (roomNumberSelect.value === '100' && capacitySelect.value === !'не для гостей') {
+  } else if (roomNumberSelect.value === '100' && capacitySelect.value !== '0') {
     capacitySelect.setCustomValidity('100 комнат = не для гостей');
+  } else {
+    capacitySelect.setCustomValidity('');
   }
 };
 
-capacitySelect.addEventListener('change', onChangeCheckOption);
+onChangeCheckOption();
+capacitySelect.addEventListener('change', function () {
+  onChangeCheckOption();
+});
+
+roomNumberSelect.addEventListener('change', function () {
+  onChangeCheckOption();
+});

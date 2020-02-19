@@ -18,6 +18,8 @@ var fragment = document.createDocumentFragment();
 var formElements = document.querySelectorAll('.ad-form__element');
 var pinMain = map.querySelector('.map__pin--main');
 var addressInput = document.getElementById('address');
+var roomNumberSelect = document.getElementById('room_number');
+var capacitySelect = document.getElementById('capacity');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -155,27 +157,33 @@ var renderCard = function (offerItem) {
   return cardElement;
 };
 
+for (var i = 0; i < formElements.length; i++) {
+  formElements[i].disabled = true;
+}
+
 var onClickMapActivate = function () {
   map.classList.remove('map--faded');
+  for (var j = 0; j < formElements.length; j++) {
+    formElements[j].disabled = false;
+  }
   for (var m = 0; m < offers.length; m++) {
     fragment.appendChild(renderPin(offers[m]));
   }
   pinsList.appendChild(fragment);
 };
 
-addressInput.value = (pinMain.style.left + PIN_MAIN_SIZE / 2) + ', ' + (pinMain.style.top + PIN_MAIN_SIZE / 2);
+addressInput.value = (Number.parseInt(pinMain.style.left, 10) + PIN_MAIN_SIZE / 2) + ', ' + (Number.parseInt(pinMain.style.top, 10) + PIN_MAIN_SIZE / 2);
 
 var getAddress = function () {
-  if (map.classList.contains('map--faded')) {
-    addressInput.value = (pinMain.style.left + PIN_MAIN_SIZE / 2) + ', ' + (pinMain.style.top + PIN_MAIN_SIZE / 2);
-  } else {
-    addressInput.value = (pinMain.style.left + PIN_WIDTH / 2) + ', ' + (pinMain.style.top + PIN_HEIGHT);
+  if (!map.classList.contains('map--faded')) {
+    addressInput.value = (Number.parseInt(pinMain.style.left, 10) + PIN_WIDTH / 2) + ', ' + (Number.parseInt(pinMain.style.top, 10) + PIN_HEIGHT);
   }
 };
 
 pinMain.addEventListener('mousedown', function (evt) {
   if (evt.button === 0) {
     onClickMapActivate();
+    getAddress();
   }
 });
 
@@ -186,7 +194,19 @@ pinMain.addEventListener('keydown', function (evt) {
 });
 
 /*pinsList.appendChild(renderCard(offers[0]));*/
+var onChangeCheckOption = function () {
+  if (roomNumberSelect.value === '1' && capacitySelect.value === !'1') {
+    capacitySelect.setCustomValidity('1 комната = 1 гость');
+  }
+  if (roomNumberSelect.value === '2' && capacitySelect.value === '3') {
+    capacitySelect.setCustomValidity('2 комнаты = 1 гость или 2 гостя');
+  }
+  if (roomNumberSelect.value === '3' && capacitySelect.value === 'не для гостей') {
+    capacitySelect.setCustomValidity('3 комнаты = 1 гость, 2 гостя или 3 гостя');
+  }
+  if (roomNumberSelect.value === '100' && capacitySelect.value === !'не для гостей') {
+    capacitySelect.setCustomValidity('100 комнат = не для гостей');
+  }
+};
 
-for (var i = 0; i < formElements.length; i++) {
-  formElements[i].disabled = true;
-}
+capacitySelect.addEventListener('change', onChangeCheckOption);

@@ -15,11 +15,13 @@ var pinsList = map.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 /* var cardTemplate = document.querySelector('#card').content.querySelector('.map__card'); */
 var fragment = document.createDocumentFragment();
+var form = document.querySelector('.ad-form');
 var formElements = document.querySelectorAll('.ad-form__element');
 var pinMain = map.querySelector('.map__pin--main');
 var addressInput = document.getElementById('address');
 var roomNumberSelect = document.getElementById('room_number');
 var capacitySelect = document.getElementById('capacity');
+var submitButton = form.querySelector('.ad-form__submit');
 
 var getRandomInt = function (min, max) {
   min = Math.ceil(min);
@@ -72,12 +74,9 @@ var offers = getOffers(8);
 
 var renderPin = function (offerItem) {
   var pinElement = pinTemplate.cloneNode(true);
-
   var pinAvatar = pinElement.querySelector('img');
-
   pinAvatar.src = offerItem.author.avatar;
   pinAvatar.alt = offerItem.offer.title;
-
   pinElement.style.left = offerItem.location.x - PIN_WIDTH / 2 + 'px';
   pinElement.style.top = offerItem.location.y - PIN_HEIGHT + 'px';
 
@@ -158,62 +157,50 @@ var renderPin = function (offerItem) {
 }; */
 
 for (var i = 0; i < formElements.length; i++) {
-  formElements[i].disabled = true;
+  formElements[i].setAttribute('disabled', 'disabled');
 }
-
-var onClickMapActivate = function () {
-  map.classList.remove('map--faded');
-  for (var j = 0; j < formElements.length; j++) {
-    formElements[j].disabled = false;
-  }
-  for (var m = 0; m < offers.length; m++) {
-    fragment.appendChild(renderPin(offers[m]));
-  }
-  pinsList.appendChild(fragment);
-};
 
 addressInput.value = (Number.parseInt(pinMain.style.left, 10) + PIN_MAIN_SIZE / 2) + ', ' + (Number.parseInt(pinMain.style.top, 10) + PIN_MAIN_SIZE / 2);
 
-var getAddress = function () {
-  if (!map.classList.contains('map--faded')) {
+var onClickMapActivate = function (evt) {
+  if (evt.button === 0 || evt.keyCode === 13) {
+    map.classList.remove('map--faded');
+    form.classList.remove('ad-form--disabled');
+
+    for (var j = 0; j < formElements.length; j++) {
+      formElements[j].removeAttribute('disabled', 'disabled');
+    }
+
+    for (var m = 0; m < offers.length; m++) {
+      fragment.appendChild(renderPin(offers[m]));
+    }
+
+    pinsList.appendChild(fragment);
     addressInput.value = (Number.parseInt(pinMain.style.left, 10) + PIN_WIDTH / 2) + ', ' + (Number.parseInt(pinMain.style.top, 10) + PIN_HEIGHT);
+    pinMain.removeEventListener('mousedown', onClickMapActivate);
+    pinMain.removeEventListener('keydown', onClickMapActivate);
   }
 };
 
-pinMain.addEventListener('mousedown', function (evt) {
-  if (evt.button === 0) {
-    onClickMapActivate();
-    getAddress();
-  }
-});
-
-pinMain.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === 13) {
-    onClickMapActivate();
-  }
-});
+pinMain.addEventListener('mousedown', onClickMapActivate);
+pinMain.addEventListener('keydown', onClickMapActivate);
 
 /* pinsList.appendChild(renderCard(offers[0])); */
 
-var onChangeCheckOption = function () {
+var onClickSubmitCheckOption = function () {
+  var message = '';
+
   if (roomNumberSelect.value === '1' && capacitySelect.value !== '1') {
-    capacitySelect.setCustomValidity('1 комната = 1 гость');
+    message = '1 комната = 1 гость';
   } else if (roomNumberSelect.value === '2' && capacitySelect.value !== '1' && capacitySelect.value !== '2') {
-    capacitySelect.setCustomValidity('2 комнаты = 1 гость или 2 гостя');
+    message = '2 комнаты = 1 гость или 2 гостя';
   } else if (roomNumberSelect.value === '3' && capacitySelect.value === '0') {
-    capacitySelect.setCustomValidity('3 комнаты = 1 гость, 2 гостя или 3 гостя');
+    message = '3 комнаты = 1 гость, 2 гостя или 3 гостя';
   } else if (roomNumberSelect.value === '100' && capacitySelect.value !== '0') {
-    capacitySelect.setCustomValidity('100 комнат = не для гостей');
-  } else {
-    capacitySelect.setCustomValidity('');
+    message = '100 комнат = не для гостей';
   }
+
+  capacitySelect.setCustomValidity(message);
 };
 
-onChangeCheckOption();
-capacitySelect.addEventListener('change', function () {
-  onChangeCheckOption();
-});
-
-roomNumberSelect.addEventListener('change', function () {
-  onChangeCheckOption();
-});
+submitButton.addEventListener('click', onClickSubmitCheckOption);

@@ -25,6 +25,7 @@ var typeSelect = document.getElementById('type');
 var priceInput = document.getElementById('price');
 var checkinSelect = document.getElementById('timein');
 var checkoutSelect = document.getElementById('timeout');
+var offerImagesInput = document.getElementById('images');
 var submitButton = form.querySelector('.ad-form__submit');
 
 var getRandomInt = function (min, max) {
@@ -214,7 +215,7 @@ var onClickMapActivate = function (evt) {
 pinMain.addEventListener('mousedown', onClickMapActivate);
 pinMain.addEventListener('keydown', onClickMapActivate);
 
-var onClickSubmitCheckValidity = function () {
+var onClickSubmitCheckValidity = function (e) {
   var capacityMessage = '';
   var minPriceMessage = '';
   var checkoutMessage = '';
@@ -231,17 +232,12 @@ var onClickSubmitCheckValidity = function () {
 
   capacitySelect.setCustomValidity(capacityMessage);
 
-  if (typeSelect.value === 'bungalo') {
-    priceInput.setAttribute('placeholder', '0');
-  } else if (typeSelect.value === 'flat' && priceInput.value < 1000) {
+  if (typeSelect.value === 'flat' && priceInput.value < 1000) {
     minPriceMessage = 'Квартиры от 1 000₽/ночь';
-    priceInput.setAttribute('placeholder', '1000');
   } else if (typeSelect.value === 'house' && priceInput.value < 5000) {
     minPriceMessage = 'Дома от 5 000₽/ночь';
-    priceInput.setAttribute('placeholder', '5000');
   } else if (typeSelect.value === 'palace' && priceInput.value < 10000) {
     minPriceMessage = 'Дворец от 10 000₽/ночь';
-    priceInput.setAttribute('placeholder', '10000');
   }
 
   priceInput.setCustomValidity(minPriceMessage);
@@ -251,14 +247,37 @@ var onClickSubmitCheckValidity = function () {
   }
 
   checkoutSelect.setCustomValidity(checkoutMessage);
+
+  e.preventDefault();
+  for (var q = 0; q < offerImagesInput.files.length; q++) {
+    if (offerImagesInput.files[q].type !== 'image/png') {
+      console.log(offerImagesInput.files[q].type);
+    }
+  }
 };
 
 submitButton.addEventListener('click', onClickSubmitCheckValidity);
 
-checkinSelect.onchange = function (e) {
-  checkoutSelect.value = e.target.value;
-};
+typeSelect.addEventListener('change', function () {
+  if (typeSelect.value === 'bungalo') {
+    priceInput.setAttribute('placeholder', '0');
+    priceInput.setAttribute('value', 0);
+  } else if (typeSelect.value === 'flat') {
+    priceInput.setAttribute('placeholder', '1000');
+    priceInput.setAttribute('value', 1000);
+  } else if (typeSelect.value === 'house') {
+    priceInput.setAttribute('placeholder', '5000');
+    priceInput.setAttribute('value', 5000);
+  } else if (typeSelect.value === 'palace') {
+    priceInput.setAttribute('placeholder', '10000');
+    priceInput.setAttribute('value', 10000);
+  }
+});
 
-checkoutSelect.onchange = function (e) {
-  checkinSelect.value = e.target.value;
-};
+checkoutSelect.addEventListener('change', function () {
+  checkinSelect.value = checkoutSelect.value;
+});
+
+checkinSelect.addEventListener('change', function () {
+  checkoutSelect.value = checkinSelect.value;
+});

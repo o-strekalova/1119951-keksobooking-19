@@ -26,6 +26,7 @@ var priceInput = document.getElementById('price');
 var checkinSelect = document.getElementById('timein');
 var checkoutSelect = document.getElementById('timeout');
 var offerImagesInput = document.getElementById('images');
+var avatarInput = document.getElementById('avatar');
 var submitButton = form.querySelector('.ad-form__submit');
 
 var getRandomInt = function (min, max) {
@@ -215,7 +216,7 @@ var onClickMapActivate = function (evt) {
 pinMain.addEventListener('mousedown', onClickMapActivate);
 pinMain.addEventListener('keydown', onClickMapActivate);
 
-var onClickSubmitCheckValidity = function (e) {
+var onClickSubmitCheckValidity = function () {
   var capacityMessage = '';
   var minPriceMessage = '';
   var checkoutMessage = '';
@@ -248,11 +249,18 @@ var onClickSubmitCheckValidity = function (e) {
 
   checkoutSelect.setCustomValidity(checkoutMessage);
 
-  e.preventDefault();
-  for (var q = 0; q < offerImagesInput.files.length; q++) {
-    if (offerImagesInput.files[q].type !== 'image/png') {
-      console.log(offerImagesInput.files[q].type);
+  offerImagesInput.setCustomValidity('');
+  if (offerImagesInput.files.length > 0) {
+    for (var q = 0; q < offerImagesInput.files.length; q++) {
+      if (!offerImagesInput.files[q].type.match('image.*')) {
+        offerImagesInput.setCustomValidity('Только картинки!');
+      }
     }
+  }
+
+  avatarInput.setCustomValidity('');
+  if (avatarInput.files.length > 0 && !avatarInput.files[0].type.match('image.*')) {
+    avatarInput.setCustomValidity('Только картинки!');
   }
 };
 

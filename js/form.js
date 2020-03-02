@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var PIN_MAIN_SIZE = 156;
+  var PIN_MAIN_SIZE = 65;
 
   var roomNumberSelect = document.getElementById('room_number');
   var capacitySelect = document.getElementById('capacity');

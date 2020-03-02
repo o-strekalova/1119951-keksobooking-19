@@ -2,18 +2,13 @@
 
 (function () {
   window.pinMain.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
 
     var startCoords = {
       x: evt.clientX,
       y: evt.clientY
     };
 
-    var dragged = false;
-
     var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      dragged = true;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
@@ -25,25 +20,16 @@
         y: moveEvt.clientY
       };
 
-      window.pinMain.style.top = (window.pinMain.offsetTop - shift.y) + 'px';
+      if ((window.pinMain.offsetTop - shift.y) > 130 && (window.pinMain.offsetTop - shift.y) < 630) {
+        window.pinMain.style.top = (window.pinMain.offsetTop - shift.y) + 'px';
+      }
       window.pinMain.style.left = (window.pinMain.offsetLeft - shift.x) + 'px';
-
+      window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + window.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + window.PIN_HEIGHT);
     };
 
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
+    var onMouseUp = function () {
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseUp);
-
-      if (dragged) {
-        var onClickPreventDefault = function (clickEvt) {
-          clickEvt.preventDefault();
-          window.pinMain.removeEventListener('click', onClickPreventDefault);
-        };
-        window.pinMain.addEventListener('click', onClickPreventDefault);
-      }
-
     };
 
     document.addEventListener('mousemove', onMouseMove);

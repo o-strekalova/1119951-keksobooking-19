@@ -4,7 +4,7 @@
   var pinsList = window.map.querySelector('.map__pins');
   var fragment = document.createDocumentFragment();
 
-  var onMapClick = function (evt) {
+  var onButtonClick = function (evt) {
     if (evt.button === 0 || evt.keyCode === 13) {
       window.map.classList.remove('map--faded');
       window.form.classList.remove('ad-form--disabled');
@@ -44,11 +44,11 @@
 
       pinsList.appendChild(fragment);
       window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + window.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + window.PIN_HEIGHT);
-      window.pinMain.removeEventListener('mousedown', onMapClick);
-      window.pinMain.removeEventListener('keydown', onMapClick);
+      window.pinMain.removeEventListener('mousedown', onButtonClick);
+      window.pinMain.removeEventListener('keydown', onButtonClick);
     }
   };
 
-  window.pinMain.addEventListener('mousedown', onMapClick);
-  window.pinMain.addEventListener('keydown', onMapClick);
+  window.pinMain.addEventListener('mousedown', onButtonClick);
+  window.pinMain.addEventListener('keydown', onButtonClick);
 })();

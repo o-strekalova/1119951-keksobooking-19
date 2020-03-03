@@ -27,7 +27,7 @@
           });
 
           document.addEventListener('keydown', function (e) {
-            if (e.keyCode === 27) {
+            if (e.keyCode === 27 && pinsList.querySelector('.map__card')) {
               pinsList.removeChild(pinsList.querySelector('.map__card'));
             }
           });

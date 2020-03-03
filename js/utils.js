@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  window.PIN_WIDTH = 50;
-  window.PIN_HEIGHT = 70;
+  window.PIN_WIDTH = 62;
+  window.PIN_HEIGHT = 84;
 
   window.map = document.querySelector('.map');
   window.pinMain = window.map.querySelector('.map__pin--main');

@@ -17,7 +17,7 @@
     window.formElements[i].setAttribute('disabled', '');
   }
 
-  window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + PIN_MAIN_SIZE / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + PIN_MAIN_SIZE / 2);
+  window.addressInput.value = Math.round(Number.parseInt(window.pinMain.style.left, 10) + PIN_MAIN_SIZE / 2) + ', ' + Math.round(Number.parseInt(window.pinMain.style.top, 10) + PIN_MAIN_SIZE / 2);
 
   var onSubmitClick = function () {
     var capacityMessage = '';

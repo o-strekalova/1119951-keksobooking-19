@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
+  var MAX_SIMILAR_PIN_COUNT = 5;
   var pinsList = window.map.querySelector('.map__pins');
-  var fragment = document.createDocumentFragment();
 
   var onButtonClick = function (evt) {
     if (evt.button === 0 || evt.keyCode === 13) {
@@ -36,13 +36,30 @@
         });
       };
 
-      for (var m = 0; m < window.offers.length; m++) {
-        var currentPin = window.renderPin(window.offers[m]);
-        fragment.appendChild(currentPin);
-        onCardClick(currentPin, window.offers[m]);
-      }
+      var onSuccess = function (offers) {
+        var fragment = document.createDocumentFragment();
+        for (var m = 0; m < MAX_SIMILAR_PIN_COUNT; m++) {
+          var currentPin = window.renderPin(offers[m]);
+          fragment.appendChild(currentPin);
+          onCardClick(currentPin, offers[m]);
+        }
+        pinsList.appendChild(fragment);
+      };
 
-      pinsList.appendChild(fragment);
+      var onError = function (errorMessage) {
+        var node = document.createElement('div');
+        node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
+        node.style.position = 'absolute';
+        node.style.left = 0;
+        node.style.right = 0;
+        node.style.fontSize = '30px';
+
+        node.textContent = errorMessage;
+        document.body.insertAdjacentElement('afterbegin', node);
+      };
+
+      window.load(onSuccess, onError);
+
       window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + window.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + window.PIN_HEIGHT);
       window.pinMain.removeEventListener('mousedown', onButtonClick);
       window.pinMain.removeEventListener('keydown', onButtonClick);

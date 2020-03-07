@@ -36,8 +36,9 @@
         });
       };
 
-      var onSuccess = function (offers) {
+      var onLoad = function (offers) {
         var fragment = document.createDocumentFragment();
+
         for (var m = 0; m < MAX_SIMILAR_PIN_COUNT; m++) {
           var currentPin = window.renderPin(offers[m]);
           fragment.appendChild(currentPin);
@@ -46,19 +47,7 @@
         pinsList.appendChild(fragment);
       };
 
-      var onError = function (errorMessage) {
-        var node = document.createElement('div');
-        node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-        node.style.position = 'absolute';
-        node.style.left = 0;
-        node.style.right = 0;
-        node.style.fontSize = '30px';
-
-        node.textContent = errorMessage;
-        document.body.insertAdjacentElement('afterbegin', node);
-      };
-
-      window.load(onSuccess, onError);
+      window.load(onLoad, window.onError);
 
       window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + window.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + window.PIN_HEIGHT);
       window.pinMain.removeEventListener('mousedown', onButtonClick);
@@ -68,4 +57,31 @@
 
   window.pinMain.addEventListener('mousedown', onButtonClick);
   window.pinMain.addEventListener('keydown', onButtonClick);
+
+  var onSave = function () {
+    var pins = pinsList.querySelectorAll('.map__pin');
+
+    window.form.reset();
+    window.map.classList.add('map--faded');
+    window.form.classList.add('ad-form--disabled');
+
+    for (var j = 0; j < window.formElements.length; j++) {
+      window.formElements[j].setAttribute('disabled', '');
+    }
+
+    for (var m = 1; m < pins.length; m++) {
+      pinsList.removeChild(pins[m]);
+    }
+
+    window.pinMain.addEventListener('mousedown', onButtonClick);
+    window.pinMain.addEventListener('keydown', onButtonClick);
+  };
+
+  var onFormSubmit = function (evt) {
+    evt.preventDefault();
+    window.save(new FormData(window.form), onSave, window.onError);
+    window.form.removeEventListener('submit', onFormSubmit);
+  };
+
+  window.form.addEventListener('submit', onFormSubmit);
 })();

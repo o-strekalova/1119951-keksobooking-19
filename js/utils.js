@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  window.PIN_MAIN_SIZE = 65;
   window.PIN_WIDTH = 62;
   window.PIN_HEIGHT = 84;
 
@@ -10,15 +11,8 @@
   window.addressInput = document.getElementById('address');
   window.formElements = document.querySelectorAll('.ad-form__element');
 
-  window.onError = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
-
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+  window.getCoords = function (pinCoord) {
+    var coord = Math.round(Number.parseInt(pinCoord, 10) + window.PIN_MAIN_SIZE / 2);
+    return coord;
   };
 })();

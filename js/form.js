@@ -1,8 +1,6 @@
 'use strict';
 
 (function () {
-  var PIN_MAIN_SIZE = 65;
-
   var roomNumberSelect = document.getElementById('room_number');
   var capacitySelect = document.getElementById('capacity');
   var typeSelect = document.getElementById('type');
@@ -17,7 +15,7 @@
     window.formElements[i].setAttribute('disabled', '');
   }
 
-  window.addressInput.value = Math.round(Number.parseInt(window.pinMain.style.left, 10) + PIN_MAIN_SIZE / 2) + ', ' + Math.round(Number.parseInt(window.pinMain.style.top, 10) + PIN_MAIN_SIZE / 2);
+  window.addressInput.value = window.getCoords(window.pinMain.style.left) + ', ' + window.getCoords(window.pinMain.style.top);
 
   var onSubmitClick = function () {
     var capacityMessage = '';

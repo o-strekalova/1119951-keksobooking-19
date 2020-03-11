@@ -2,7 +2,7 @@
 
 (function () {
   var MAX_SIMILAR_PIN_COUNT = 5;
-  var typeFilter = document.getElementById('housing-type');
+  var filters = window.map.querySelectorAll('.map__filter');
 
   var onPinClick = function (pin, offer) {
     pin.addEventListener('click', function () {
@@ -35,19 +35,24 @@
     });
   };
 
-  var updatePins = function (offers) {
-    var pins = window.pinsList.querySelectorAll('.map__pin');
+  var checkFilters = function (offers, property) {
     var similars = offers;
 
+    for (var i = 0; i < filters.length; i++) {
+      if (filters[i] !== 'any') {
+        similars = offers.filter(function (offerItem) {
+          return offerItem.offer[property] === filters[i].value;
+        });
+      }
+    }
+  };
+
+  var updatePins = function (offers) {
+    var pins = window.pinsList.querySelectorAll('.map__pin');
     for (var i = 1; i < pins.length; i++) {
       window.pinsList.removeChild(pins[i]);
     }
-
-    if (typeFilter.value !== 'any') {
-      similars = offers.filter(function (offerItem) {
-        return offerItem.offer.type === typeFilter.value;
-      });
-    }
+    checkFilters(offers, )
 
     var takeNumber = similars.length > MAX_SIMILAR_PIN_COUNT ? MAX_SIMILAR_PIN_COUNT : similars.length;
 
@@ -70,5 +75,7 @@
     window.load(window.onLoad, window.onLoadError);
   };
 
-  typeFilter.addEventListener('change', onFilterChange);
+  filters.forEach(function (filter) {
+    filter.addEventListener('change', onFilterChange);
+  });
 })();

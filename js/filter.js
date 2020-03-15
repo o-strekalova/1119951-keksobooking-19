@@ -3,7 +3,8 @@
 (function () {
 
   var MAX_SIMILAR_PIN_COUNT = 5;
-  var filters = window.map.querySelector('.map__filters');
+
+  var filtersList = window.map.querySelector('.map__filters');
   var typeFilter = document.getElementById('housing-type');
   var priceFilter = document.getElementById('housing-price');
   var roomsFilter = document.getElementById('housing-rooms');
@@ -136,5 +137,5 @@
     window.load(window.onLoad, window.onLoadError);
   };
 
-  filters.addEventListener('change', onFilterChange);
+  filtersList.addEventListener('change', onFilterChange);
 })();

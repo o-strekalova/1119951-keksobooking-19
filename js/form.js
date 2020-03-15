@@ -7,9 +7,6 @@
   var priceInput = document.getElementById('price');
   var checkinSelect = document.getElementById('timein');
   var checkoutSelect = document.getElementById('timeout');
-  var offerImagesInput = document.getElementById('images');
-  var avatarInput = document.getElementById('avatar');
-  var submitButton = window.form.querySelector('.ad-form__submit');
 
   for (var i = 0; i < window.formElements.length; i++) {
     window.formElements[i].setAttribute('disabled', '');
@@ -50,22 +47,22 @@
 
     checkoutSelect.setCustomValidity(checkoutMessage);
 
-    offerImagesInput.setCustomValidity('');
-    if (offerImagesInput.files.length > 0) {
-      for (var q = 0; q < offerImagesInput.files.length; q++) {
-        if (!offerImagesInput.files[q].type.match('image.*')) {
-          offerImagesInput.setCustomValidity('Только картинки!');
+    window.offerImagesInput.setCustomValidity('');
+    if (window.offerImagesInput.files.length > 0) {
+      for (var q = 0; q < window.offerImagesInput.files.length; q++) {
+        if (!window.offerImagesInput.files[q].type.match('image.*')) {
+          window.offerImagesInput.setCustomValidity('Только картинки!');
         }
       }
     }
 
-    avatarInput.setCustomValidity('');
-    if (avatarInput.files.length > 0 && !avatarInput.files[0].type.match('image.*')) {
-      avatarInput.setCustomValidity('Только картинки!');
+    window.avatarInput.setCustomValidity('');
+    if (window.avatarInput.files.length > 0 && !window.avatarInput.files[0].type.match('image.*')) {
+      window.avatarInput.setCustomValidity('Только картинки!');
     }
   };
 
-  submitButton.addEventListener('click', onSubmitClick);
+  window.submitButton.addEventListener('click', onSubmitClick);
 
   var onTypeChange = function () {
     if (typeSelect.value === 'bungalo') {

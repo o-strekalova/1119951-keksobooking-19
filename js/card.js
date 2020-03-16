@@ -13,10 +13,8 @@
     var capacity = cardElement.querySelector('.popup__text--time');
     var time = cardElement.querySelector('.popup__text--capacity');
     var features = cardElement.querySelector('.popup__features');
-    var feature = features.querySelector('.popup__feature');
     var description = cardElement.querySelector('.popup__description');
     var photos = cardElement.querySelector('.popup__photos');
-    var photo = photos.querySelector('.popup__photo');
     var avatar = cardElement.querySelector('.popup__avatar');
 
     title.textContent = offerItem.offer.title;
@@ -59,21 +57,33 @@
       time.textContent += ', выезд до ' + offerItem.offer.checkout;
     }
 
+    features.innerHTML = '';
+    var fragmentFeatures = document.createDocumentFragment();
     for (var i = 0; i < offerItem.offer.features.length; i++) {
-      features.appendChild(feature);
-      feature.classList.add('popup__feature--' + offerItem.offer.features[i]);
+      var newFeature = document.createElement('li');
+      newFeature.classList.add('popup__feature');
+      newFeature.classList.add('popup__feature--' + offerItem.offer.features[i]);
+      fragmentFeatures.appendChild(newFeature);
     }
+    features.appendChild(fragmentFeatures);
 
     description.textContent = offerItem.offer.description;
 
+    photos.innerHTML = '';
+    var fragmentPhotos = document.createDocumentFragment();
     for (var j = 0; j < offerItem.offer.photos.length; j++) {
-      photos.appendChild(photo);
-      photo.src = offerItem.offer.photos[j];
+      var newPhoto = document.createElement('img');
+      newPhoto.classList.add('popup__photo');
+      newPhoto.width = 45;
+      newPhoto.height = 40;
+      newPhoto.alt = 'Фотография жилья';
+      newPhoto.src = offerItem.offer.photos[j];
+      fragmentPhotos.appendChild(newPhoto);
     }
+    photos.appendChild(fragmentPhotos);
 
     avatar.src = offerItem.author.avatar;
 
     return cardElement;
   };
-
 })();

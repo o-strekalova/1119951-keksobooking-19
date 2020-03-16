@@ -11,6 +11,9 @@
   window.form = document.querySelector('.ad-form');
   window.addressInput = document.getElementById('address');
   window.formElements = document.querySelectorAll('.ad-form__element');
+  window.avatarInput = document.getElementById('avatar');
+  window.offerImagesInput = document.getElementById('images');
+  window.submitButton = window.form.querySelector('.ad-form__submit');
 
   window.getCoords = function (pinCoord) {
     return Math.round(Number.parseInt(pinCoord, 10) + window.PIN_MAIN_SIZE / 2);

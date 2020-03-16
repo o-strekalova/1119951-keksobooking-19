@@ -8,32 +8,68 @@
   var successTemplate = document.getElementById('success').content.querySelector('.success');
   var errorTemplate = document.getElementById('error').content.querySelector('.error');
   var reset = window.form.querySelector('.ad-form__reset');
+  var avatarPreview = window.form.querySelector('.ad-form-header__preview-img');
+  var offerImagePreview = window.form.querySelector('.ad-form__photo-preview');
+  var filters = window.map.querySelectorAll('.map__filter');
+  var filterCheckboxes = window.map.querySelectorAll('.map__checkbox');
+
+  var showPicture = function (input, preview) {
+    if (input.files[0].type.match('image.*')) {
+      var reader = new FileReader();
+      reader.addEventListener('load', function () {
+        preview.src = reader.result;
+      });
+      reader.readAsDataURL(input.files[0]);
+    }
+  };
+
+  var onAvatarChange = function () {
+    showPicture(window.avatarInput, avatarPreview);
+  };
+
+  var onOfferImageChange = function () {
+    showPicture(window.offerImagesInput, offerImagePreview);
+  };
+
 
   var activate = function () {
     window.map.classList.remove('map--faded');
     window.form.classList.remove('ad-form--disabled');
-    for (var j = 0; j < window.formElements.length; j++) {
-      window.formElements[j].removeAttribute('disabled', '');
-    }
+    window.avatarInput.addEventListener('change', onAvatarChange);
+    window.offerImagesInput.addEventListener('change', onOfferImageChange);
+    window.formElements.forEach(function (element) {
+      element.removeAttribute('disabled', '');
+    });
     window.load(window.onLoad, window.onLoadError);
   };
 
   var deactivate = function () {
     var pins = window.pinsList.querySelectorAll('.map__pin');
+    window.submitButton.blur();
     window.form.reset();
     window.map.classList.add('map--faded');
     window.form.classList.add('ad-form--disabled');
+    window.avatarInput.removeEventListener('change', onAvatarChange);
+    window.offerImagesInput.removeEventListener('change', onOfferImageChange);
+    avatarPreview.src = 'img/muffin-grey.svg';
+    offerImagePreview.src = 'img/muffin-grey.svg';
     window.pinMain.style.left = MAIN_PIN_LEFT + 'px';
     window.pinMain.style.top = MAIN_PIN_TOP + 'px';
     if (window.pinsList.querySelector('.map__card')) {
       window.pinsList.removeChild(window.pinsList.querySelector('.map__card'));
     }
-    for (var k = 0; k < window.formElements.length; k++) {
-      window.formElements[k].setAttribute('disabled', '');
-    }
+    window.formElements.forEach(function (element) {
+      element.setAttribute('disabled', '');
+    });
     for (var m = 1; m < pins.length; m++) {
       window.pinsList.removeChild(pins[m]);
     }
+    filters.forEach(function (filter) {
+      filter.value = 'any';
+    });
+    filterCheckboxes.forEach(function (checkbox) {
+      checkbox.checked = false;
+    });
     window.addressInput.value = window.getCoords(window.pinMain.style.left) + ', ' + window.getCoords(window.pinMain.style.top);
     window.pinMain.addEventListener('mousedown', onPinMainClick);
     window.pinMain.addEventListener('keydown', onPinMainClick);
@@ -85,6 +121,7 @@
         };
 
         main.appendChild(errorTemplate);
+        window.submitButton.blur();
         document.addEventListener('click', onWindowClick);
         document.addEventListener('keydown', onEscPress);
       };

@@ -7,13 +7,10 @@
   var priceInput = document.getElementById('price');
   var checkinSelect = document.getElementById('timein');
   var checkoutSelect = document.getElementById('timeout');
-  var offerImagesInput = document.getElementById('images');
-  var avatarInput = document.getElementById('avatar');
-  var submitButton = window.form.querySelector('.ad-form__submit');
 
-  for (var i = 0; i < window.formElements.length; i++) {
-    window.formElements[i].setAttribute('disabled', '');
-  }
+  window.formElements.forEach(function (element) {
+    element.setAttribute('disabled', '');
+  });
 
   window.addressInput.value = window.getCoords(window.pinMain.style.left) + ', ' + window.getCoords(window.pinMain.style.top);
 
@@ -50,36 +47,43 @@
 
     checkoutSelect.setCustomValidity(checkoutMessage);
 
-    offerImagesInput.setCustomValidity('');
-    if (offerImagesInput.files.length > 0) {
-      for (var q = 0; q < offerImagesInput.files.length; q++) {
-        if (!offerImagesInput.files[q].type.match('image.*')) {
-          offerImagesInput.setCustomValidity('Только картинки!');
+    window.offerImagesInput.setCustomValidity('');
+    if (window.offerImagesInput.files.length > 0) {
+      for (var q = 0; q < window.offerImagesInput.files.length; q++) {
+        if (!window.offerImagesInput.files[q].type.match('image.*')) {
+          window.offerImagesInput.setCustomValidity('Только картинки!');
         }
       }
     }
 
-    avatarInput.setCustomValidity('');
-    if (avatarInput.files.length > 0 && !avatarInput.files[0].type.match('image.*')) {
-      avatarInput.setCustomValidity('Только картинки!');
+    window.avatarInput.setCustomValidity('');
+    if (window.avatarInput.files.length > 0 && !window.avatarInput.files[0].type.match('image.*')) {
+      window.avatarInput.setCustomValidity('Только картинки!');
     }
   };
 
-  submitButton.addEventListener('click', onSubmitClick);
+  window.submitButton.addEventListener('click', onSubmitClick);
 
   var onTypeChange = function () {
-    if (typeSelect.value === 'bungalo') {
-      priceInput.setAttribute('placeholder', '0');
-      priceInput.setAttribute('value', 0);
-    } else if (typeSelect.value === 'flat') {
-      priceInput.setAttribute('placeholder', '1000');
-      priceInput.setAttribute('value', 1000);
-    } else if (typeSelect.value === 'house') {
-      priceInput.setAttribute('placeholder', '5000');
-      priceInput.setAttribute('value', 5000);
-    } else if (typeSelect.value === 'palace') {
-      priceInput.setAttribute('placeholder', '10000');
-      priceInput.setAttribute('value', 10000);
+    switch (typeSelect.value) {
+      case 'bungalo':
+        priceInput.setAttribute('placeholder', '0');
+        priceInput.setAttribute('value', 0);
+        break;
+      case 'flat':
+        priceInput.setAttribute('placeholder', '1000');
+        priceInput.setAttribute('value', 1000);
+        break;
+      case 'house':
+        priceInput.setAttribute('placeholder', '5000');
+        priceInput.setAttribute('value', 5000);
+        break;
+      case 'palace':
+        priceInput.setAttribute('placeholder', '10000');
+        priceInput.setAttribute('value', 10000);
+        break;
+      default:
+        break;
     }
   };
 

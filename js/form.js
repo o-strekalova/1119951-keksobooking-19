@@ -8,9 +8,9 @@
   var checkinSelect = document.getElementById('timein');
   var checkoutSelect = document.getElementById('timeout');
 
-  for (var i = 0; i < window.formElements.length; i++) {
-    window.formElements[i].setAttribute('disabled', '');
-  }
+  window.formElements.forEach(function (element) {
+    element.setAttribute('disabled', '');
+  });
 
   window.addressInput.value = window.getCoords(window.pinMain.style.left) + ', ' + window.getCoords(window.pinMain.style.top);
 
@@ -65,18 +65,25 @@
   window.submitButton.addEventListener('click', onSubmitClick);
 
   var onTypeChange = function () {
-    if (typeSelect.value === 'bungalo') {
-      priceInput.setAttribute('placeholder', '0');
-      priceInput.setAttribute('value', 0);
-    } else if (typeSelect.value === 'flat') {
-      priceInput.setAttribute('placeholder', '1000');
-      priceInput.setAttribute('value', 1000);
-    } else if (typeSelect.value === 'house') {
-      priceInput.setAttribute('placeholder', '5000');
-      priceInput.setAttribute('value', 5000);
-    } else if (typeSelect.value === 'palace') {
-      priceInput.setAttribute('placeholder', '10000');
-      priceInput.setAttribute('value', 10000);
+    switch (typeSelect.value) {
+      case 'bungalo':
+        priceInput.setAttribute('placeholder', '0');
+        priceInput.setAttribute('value', 0);
+        break;
+      case 'flat':
+        priceInput.setAttribute('placeholder', '1000');
+        priceInput.setAttribute('value', 1000);
+        break;
+      case 'house':
+        priceInput.setAttribute('placeholder', '5000');
+        priceInput.setAttribute('value', 5000);
+        break;
+      case 'palace':
+        priceInput.setAttribute('placeholder', '10000');
+        priceInput.setAttribute('value', 10000);
+        break;
+      default:
+        break;
     }
   };
 

@@ -10,6 +10,8 @@
   var reset = window.form.querySelector('.ad-form__reset');
   var avatarPreview = window.form.querySelector('.ad-form-header__preview-img');
   var offerImagePreview = window.form.querySelector('.ad-form__photo-preview');
+  var filters = window.map.querySelectorAll('.map__filter');
+  var filterCheckboxes = window.map.querySelectorAll('.map__checkbox');
 
   var showPicture = function (input, preview) {
     if (input.files[0].type.match('image.*')) {
@@ -35,9 +37,9 @@
     window.form.classList.remove('ad-form--disabled');
     window.avatarInput.addEventListener('change', onAvatarChange);
     window.offerImagesInput.addEventListener('change', onOfferImageChange);
-    for (var j = 0; j < window.formElements.length; j++) {
-      window.formElements[j].removeAttribute('disabled', '');
-    }
+    window.formElements.forEach(function (element) {
+      element.removeAttribute('disabled', '');
+    });
     window.load(window.onLoad, window.onLoadError);
   };
 
@@ -56,12 +58,18 @@
     if (window.pinsList.querySelector('.map__card')) {
       window.pinsList.removeChild(window.pinsList.querySelector('.map__card'));
     }
-    for (var k = 0; k < window.formElements.length; k++) {
-      window.formElements[k].setAttribute('disabled', '');
-    }
+    window.formElements.forEach(function (element) {
+      element.setAttribute('disabled', '');
+    });
     for (var m = 1; m < pins.length; m++) {
       window.pinsList.removeChild(pins[m]);
     }
+    filters.forEach(function (filter) {
+      filter.value = 'any';
+    });
+    filterCheckboxes.forEach(function (checkbox) {
+      checkbox.checked = false;
+    });
     window.addressInput.value = window.getCoords(window.pinMain.style.left) + ', ' + window.getCoords(window.pinMain.style.top);
     window.pinMain.addEventListener('mousedown', onPinMainClick);
     window.pinMain.addEventListener('keydown', onPinMainClick);

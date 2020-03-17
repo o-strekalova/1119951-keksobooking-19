@@ -1,22 +1,22 @@
 'use strict';
 
 (function () {
-  window.PIN_MAIN_SIZE = 65;
+  var PIN_MAIN_SIZE = 65;
+
+  window.ESC = 27;
   window.PIN_WIDTH = 62;
   window.PIN_HEIGHT = 84;
 
-  window.map = document.querySelector('.map');
-  window.pinMain = window.map.querySelector('.map__pin--main');
-  window.pinsList = window.map.querySelector('.map__pins');
-  window.form = document.querySelector('.ad-form');
+  window.pinsList = document.querySelector('.map__pins');
+  window.pinMain = window.pinsList.querySelector('.map__pin--main');
   window.addressInput = document.getElementById('address');
-  window.formElements = document.querySelectorAll('.ad-form__element');
-  window.avatarInput = document.getElementById('avatar');
-  window.offerImagesInput = document.getElementById('images');
-  window.submitButton = window.form.querySelector('.ad-form__submit');
 
-  window.getCoords = function (pinCoord) {
-    return Math.round(Number.parseInt(pinCoord, 10) + window.PIN_MAIN_SIZE / 2);
+  var getCoords = function (pinCoord) {
+    return Math.round(Number.parseInt(pinCoord, 10) + PIN_MAIN_SIZE / 2);
+  };
+
+  window.getAddress = function () {
+    return getCoords(window.pinMain.style.left) + ', ' + getCoords(window.pinMain.style.top);
   };
 
   window.onLoadError = function (errorMessage) {

@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
+
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
   window.renderCard = function (offerItem) {
@@ -74,8 +77,8 @@
     for (var j = 0; j < offerItem.offer.photos.length; j++) {
       var newPhoto = document.createElement('img');
       newPhoto.classList.add('popup__photo');
-      newPhoto.width = 45;
-      newPhoto.height = 40;
+      newPhoto.width = PHOTO_WIDTH;
+      newPhoto.height = PHOTO_HEIGHT;
       newPhoto.alt = 'Фотография жилья';
       newPhoto.src = offerItem.offer.photos[j];
       fragmentPhotos.appendChild(newPhoto);

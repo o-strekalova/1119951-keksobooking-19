@@ -1,6 +1,11 @@
 'use strict';
 
 (function () {
+  var X_MIN = 0;
+  var X_MАХ = 1200;
+  var Y_MIN = 130;
+  var Y_MАХ = 630;
+
   window.pinMain.addEventListener('mousedown', function (evt) {
 
     var startCoords = {
@@ -9,10 +14,10 @@
     };
 
     var onMouseMove = function (moveEvt) {
-      var minTopY = 130 - window.PIN_HEIGHT;
-      var maxTopY = 630 - window.PIN_HEIGHT;
-      var minLeftX = 0 - window.PIN_WIDTH / 2;
-      var maxLeftX = 1200 - window.PIN_WIDTH / 2;
+      var minTopY = Y_MIN - window.PIN_HEIGHT;
+      var maxTopY = Y_MАХ - window.PIN_HEIGHT;
+      var minLeftX = X_MIN - window.PIN_WIDTH / 2;
+      var maxLeftX = X_MАХ - window.PIN_WIDTH / 2;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,

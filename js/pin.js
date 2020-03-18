@@ -9,8 +9,8 @@
       var pinAvatar = pinElement.querySelector('img');
       pinAvatar.src = offerItem.author.avatar;
       pinAvatar.alt = offerItem.offer.title;
-      pinElement.style.left = offerItem.location.x - window.PIN_WIDTH / 2 + 'px';
-      pinElement.style.top = offerItem.location.y - window.PIN_HEIGHT + 'px';
+      pinElement.style.left = offerItem.location.x - window.utils.PIN_WIDTH / 2 + 'px';
+      pinElement.style.top = offerItem.location.y - window.utils.PIN_HEIGHT + 'px';
     }
 
     return pinElement;

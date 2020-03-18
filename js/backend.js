@@ -8,10 +8,9 @@
   };
   var TIMEOUT_IN_MS = 10000;
 
-  window.load = function (onLoad, onError) {
+  var load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
-
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
@@ -25,16 +24,13 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
     xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.open('GET', URL_FOR_LOAD);
     xhr.send();
   };
 
-  window.save = function (data, onLoad, onError) {
+  var save = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
-
     xhr.addEventListener('load', function () {
       if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
@@ -48,10 +44,13 @@
     xhr.addEventListener('timeout', function () {
       onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
-
     xhr.timeout = TIMEOUT_IN_MS;
-
     xhr.open('POST', URL_FOR_SAVE);
     xhr.send(data);
+  };
+
+  window.backend = {
+    load: load,
+    save: save,
   };
 })();

@@ -6,7 +6,7 @@
   var Y_MIN = 130;
   var Y_MАХ = 630;
 
-  window.pinMain.addEventListener('mousedown', function (evt) {
+  window.utils.pinMain.addEventListener('mousedown', function (evt) {
 
     var startCoords = {
       x: evt.clientX,
@@ -14,18 +14,18 @@
     };
 
     var onMouseMove = function (moveEvt) {
-      var minTopY = Y_MIN - window.PIN_HEIGHT;
-      var maxTopY = Y_MАХ - window.PIN_HEIGHT;
-      var minLeftX = X_MIN - window.PIN_WIDTH / 2;
-      var maxLeftX = X_MАХ - window.PIN_WIDTH / 2;
+      var minTopY = Y_MIN - window.utils.PIN_HEIGHT;
+      var maxTopY = Y_MАХ - window.utils.PIN_HEIGHT;
+      var minLeftX = X_MIN - window.utils.PIN_WIDTH / 2;
+      var maxLeftX = X_MАХ - window.utils.PIN_WIDTH / 2;
 
       var shift = {
         x: startCoords.x - moveEvt.clientX,
         y: startCoords.y - moveEvt.clientY
       };
 
-      var pinTopY = window.pinMain.offsetTop - shift.y;
-      var pinLeftX = window.pinMain.offsetLeft - shift.x;
+      var pinTopY = window.utils.pinMain.offsetTop - shift.y;
+      var pinLeftX = window.utils.pinMain.offsetLeft - shift.x;
 
       startCoords = {
         x: moveEvt.clientX,
@@ -33,12 +33,12 @@
       };
 
       if (pinTopY > minTopY && pinTopY < maxTopY) {
-        window.pinMain.style.top = pinTopY + 'px';
+        window.utils.pinMain.style.top = pinTopY + 'px';
       }
       if (pinLeftX > minLeftX && pinLeftX < maxLeftX) {
-        window.pinMain.style.left = pinLeftX + 'px';
+        window.utils.pinMain.style.left = pinLeftX + 'px';
       }
-      window.addressInput.value = (Number.parseInt(window.pinMain.style.left, 10) + window.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.pinMain.style.top, 10) + window.PIN_HEIGHT);
+      window.utils.addressInput.value = (Number.parseInt(window.utils.pinMain.style.left, 10) + window.utils.PIN_WIDTH / 2) + ', ' + (Number.parseInt(window.utils.pinMain.style.top, 10) + window.utils.PIN_HEIGHT);
     };
 
     var onMouseUp = function () {

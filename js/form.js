@@ -22,8 +22,9 @@
   formElements.forEach(function (element) {
     element.setAttribute('disabled', '');
   });
+  avatarInput.setAttribute('disabled', '');
 
-  window.addressInput.value = window.getAddress();
+  window.utils.addressInput.value = window.utils.getAddress();
 
   var onSubmitClick = function () {
     var capacityMessage = '';
@@ -60,8 +61,8 @@
 
     offerImagesInput.setCustomValidity('');
     if (offerImagesInput.files.length > 0) {
-      for (var q = 0; q < offerImagesInput.files.length; q++) {
-        if (!offerImagesInput.files[q].type.match('image.*')) {
+      for (var i = 0; i < offerImagesInput.files.length; i++) {
+        if (!offerImagesInput.files[i].type.match('image.*')) {
           offerImagesInput.setCustomValidity('Только картинки!');
         }
       }
@@ -77,19 +78,15 @@
     switch (typeSelect.value) {
       case 'bungalo':
         priceInput.setAttribute('placeholder', '0');
-        priceInput.setAttribute('value', 0);
         break;
       case 'flat':
         priceInput.setAttribute('placeholder', '1000');
-        priceInput.setAttribute('value', 1000);
         break;
       case 'house':
         priceInput.setAttribute('placeholder', '5000');
-        priceInput.setAttribute('value', 5000);
         break;
       case 'palace':
         priceInput.setAttribute('placeholder', '10000');
-        priceInput.setAttribute('value', 10000);
         break;
       default:
         break;
@@ -129,13 +126,13 @@
 
   var onFormSubmit = function (e) {
     e.preventDefault();
-    window.save(new FormData(form), onSave, onSubmitError);
+    window.backend.save(new FormData(form), onSave, onSubmitError);
     form.removeEventListener('submit', onFormSubmit);
   };
 
   var onSubmitError = function () {
     var onEscPress = function (e) {
-      if (e.keyCode === window.ESC && main.contains(errorTemplate)) {
+      if (e.keyCode === window.utils.ESC && main.contains(errorTemplate)) {
         main.removeChild(errorTemplate);
         document.removeEventListener('keydown', onEscPress);
       }
@@ -160,7 +157,7 @@
 
   var onSave = function () {
     var onEscPress = function (e) {
-      if (e.keyCode === window.ESC && main.contains(successTemplate)) {
+      if (e.keyCode === window.utils.ESC && main.contains(successTemplate)) {
         main.removeChild(successTemplate);
         document.removeEventListener('keydown', onEscPress);
       }
@@ -179,11 +176,12 @@
     document.addEventListener('keydown', onEscPress);
   };
 
-  window.activateFrom = function () {
+  var activateForm = function () {
     form.classList.remove('ad-form--disabled');
     formElements.forEach(function (element) {
       element.removeAttribute('disabled', '');
     });
+    avatarInput.removeAttribute('disabled', '');
 
     avatarInput.addEventListener('change', onAvatarChange);
     offerImagesInput.addEventListener('change', onOfferImageChange);
@@ -196,7 +194,7 @@
     reset.addEventListener('click', onResetClick);
   };
 
-  window.deactivateForm = function () {
+  var deactivateForm = function () {
     submitButton.blur();
     form.reset();
     form.classList.add('ad-form--disabled');
@@ -205,7 +203,7 @@
     formElements.forEach(function (element) {
       element.setAttribute('disabled', '');
     });
-    window.addressInput.value = window.getAddress();
+    window.utils.addressInput.value = window.utils.getAddress();
 
     avatarInput.removeEventListener('change', onAvatarChange);
     offerImagesInput.removeEventListener('change', onOfferImageChange);
@@ -216,5 +214,10 @@
     submitButton.removeEventListener('click', onSubmitClick);
     form.removeEventListener('submit', onFormSubmit);
     reset.removeEventListener('click', onResetClick);
+  };
+
+  window.form = {
+    activateForm: activateForm,
+    deactivateForm: deactivateForm,
   };
 })();

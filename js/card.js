@@ -23,13 +23,13 @@
     var photos = cardElement.querySelector('.popup__photos');
     photos.innerHTML = '';
     var fragmentPhotos = document.createDocumentFragment();
-    for (var j = 0; j < offerItem.offer.photos.length; j++) {
+    for (var i = 0; i < offerItem.offer.photos.length; i++) {
       var newPhoto = document.createElement('img');
       newPhoto.classList.add('popup__photo');
       newPhoto.width = PHOTO_WIDTH;
       newPhoto.height = PHOTO_HEIGHT;
       newPhoto.alt = 'Фотография жилья';
-      newPhoto.src = offerItem.offer.photos[j];
+      newPhoto.src = offerItem.offer.photos[i];
       fragmentPhotos.appendChild(newPhoto);
     }
     photos.appendChild(fragmentPhotos);

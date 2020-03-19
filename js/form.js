@@ -26,10 +26,8 @@
 
   window.utils.addressInput.value = window.utils.getAddress();
 
-  var onSubmitClick = function () {
+  var checkCapacity = function () {
     var capacityMessage = '';
-    var minPriceMessage = '';
-    var checkoutMessage = '';
 
     if (roomNumberSelect.value === '1' && capacitySelect.value !== '1') {
       capacityMessage = '1 комната = 1 гость';
@@ -41,7 +39,11 @@
       capacityMessage = '100 комнат = не для гостей';
     }
 
-    capacitySelect.setCustomValidity(capacityMessage);
+    return capacityMessage;
+  };
+
+  var checkPrice = function () {
+    var minPriceMessage = '';
 
     if (typeSelect.value === 'flat' && priceInput.value < 1000) {
       minPriceMessage = 'Квартиры от 1 000₽/ночь';
@@ -50,13 +52,16 @@
     } else if (typeSelect.value === 'palace' && priceInput.value < 10000) {
       minPriceMessage = 'Дворец от 10 000₽/ночь';
     }
+    return minPriceMessage;
+  };
 
-    priceInput.setCustomValidity(minPriceMessage);
-
+  var onSubmitClick = function () {
+    var checkoutMessage = '';
+    capacitySelect.setCustomValidity(checkCapacity());
+    priceInput.setCustomValidity(checkPrice());
     if (checkinSelect.value !== checkoutSelect.value) {
       checkoutMessage = 'Время заезда и выезда должно совпадать';
     }
-
     checkoutSelect.setCustomValidity(checkoutMessage);
 
     offerImagesInput.setCustomValidity('');
@@ -203,6 +208,7 @@
     formElements.forEach(function (element) {
       element.setAttribute('disabled', '');
     });
+    avatarInput.setAttribute('disabled', '');
     window.utils.addressInput.value = window.utils.getAddress();
 
     avatarInput.removeEventListener('change', onAvatarChange);

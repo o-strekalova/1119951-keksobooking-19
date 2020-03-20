@@ -622,7 +622,10 @@ fieldset {
 
 .ad-form__element input:focus,
 .ad-form__element select:focus,
-.ad-form__element textarea:focus {
+.ad-form__element textarea:focus,
+.ad-form__element input:invalid,
+.ad-form__element select:invalid,
+.ad-form__element textarea:invalid {
   outline: none;
   -webkit-box-shadow: 0 0 2px 2px #ff6547;
           box-shadow: 0 0 2px 2px #ff6547;

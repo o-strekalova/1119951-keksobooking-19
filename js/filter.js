@@ -58,7 +58,7 @@
         isSimilar = true;
         break;
       case 'middle':
-        if (offerItem.offer.price >= 10000 || offerItem.offer.price <= 50000) {
+        if (offerItem.offer.price >= 10000 && offerItem.offer.price <= 50000) {
           isSimilar = true;
         }
         break;

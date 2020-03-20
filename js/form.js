@@ -55,7 +55,7 @@
     return minPriceMessage;
   };
 
-  var onSubmitClick = function () {
+  var checkValidity = function () {
     var checkoutMessage = '';
     capacitySelect.setCustomValidity(checkCapacity());
     priceInput.setCustomValidity(checkPrice());
@@ -187,6 +187,7 @@
       element.removeAttribute('disabled', '');
     });
     avatarInput.removeAttribute('disabled', '');
+    checkValidity();
 
     avatarInput.addEventListener('change', onAvatarChange);
     offerImagesInput.addEventListener('change', onOfferImageChange);
@@ -194,7 +195,7 @@
     priceInput.addEventListener('change', onPriceChange);
     checkoutSelect.addEventListener('change', onCheckoutChange);
     checkinSelect.addEventListener('change', onCheckinChange);
-    submitButton.addEventListener('click', onSubmitClick);
+    submitButton.addEventListener('click', checkValidity);
     form.addEventListener('submit', onFormSubmit);
     reset.addEventListener('click', onResetClick);
   };
@@ -217,7 +218,7 @@
     priceInput.removeEventListener('change', onPriceChange);
     checkoutSelect.removeEventListener('change', onCheckoutChange);
     checkinSelect.removeEventListener('change', onCheckinChange);
-    submitButton.removeEventListener('click', onSubmitClick);
+    submitButton.removeEventListener('click', checkValidity);
     form.removeEventListener('submit', onFormSubmit);
     reset.removeEventListener('click', onResetClick);
   };

@@ -79,6 +79,10 @@
     }
   };
 
+  var onSubmitClick = function () {
+    checkValidity();
+  };
+
   var onTypeChange = function () {
     switch (typeSelect.value) {
       case 'bungalo':
@@ -195,7 +199,7 @@
     priceInput.addEventListener('change', onPriceChange);
     checkoutSelect.addEventListener('change', onCheckoutChange);
     checkinSelect.addEventListener('change', onCheckinChange);
-    submitButton.addEventListener('click', checkValidity);
+    submitButton.addEventListener('click', onSubmitClick);
     form.addEventListener('submit', onFormSubmit);
     reset.addEventListener('click', onResetClick);
   };
@@ -218,7 +222,7 @@
     priceInput.removeEventListener('change', onPriceChange);
     checkoutSelect.removeEventListener('change', onCheckoutChange);
     checkinSelect.removeEventListener('change', onCheckinChange);
-    submitButton.removeEventListener('click', checkValidity);
+    submitButton.removeEventListener('click', onSubmitClick);
     form.removeEventListener('submit', onFormSubmit);
     reset.removeEventListener('click', onResetClick);
   };
